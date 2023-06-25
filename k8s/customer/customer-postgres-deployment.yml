@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-postgres-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customer-postgres-depl
+  template:
+    metadata:
+      labels:
+        app: customer-postgres-depl
+    spec:
+      containers:
+        - name: customer-postgres
+          image: postgres:14.1
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: customer-secret
+                  key: CUSTOMER_DB_PASSWORD
+
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: customer-config
+                  key: CUSTOMER_DB_NAME
+
+            - name: CUSTOMER_DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: customer-config
+                  key: CUSTOMER_DB_PORT
+
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: customer-config
+                  key: CUSTOMER_DB_USER
+
+
+
+        

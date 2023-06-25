@@ -1,0 +1,45 @@
+version: "3.8"
+services:
+
+  # Admin App
+  admin-app:
+    container_name: admin-app
+    build:
+      context: ./admin-app
+      dockerfile: dockerfile.dev
+    ports:
+      - 8085:8085
+    volumes:
+      - ./admin-app/:/app
+    environment:
+      - POSTGRES_URL=admin-postgres-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456789
+      - POSTGRES_DB=admin
+      - POSTGRES_PORT=5432
+      - ADMIN_APP_HTTP_PORT=8085
+      - ADMIN_APP_HTTP_HOST=127.0.0.1
+
+    restart: on-failure
+    depends_on:
+      - admin-postgres-db
+    links:
+      - admin-postgres-db
+
+  # Admin DB
+  admin-postgres-db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456789
+      - POSTGRES_DB=admin
+    ports:
+      - 5436:5432
+    volumes:
+      - admin-db:/var/lib/postgresql/data
+
+volumes:
+  admin-db:
+
+

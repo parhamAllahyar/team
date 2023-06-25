@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-app-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customer-app-depl
+  template:
+    metadata:
+      labels:
+        app: customer-app-depl
+    spec:
+      containers:
+        - name: customer-app
+          image: hello-world
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: customer-secret
+                  key: CUSTOMER_DB_PASSWORD
+
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: customer-config
+                  key: CUSTOMER_DB_PORT
+
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: customer-config
+                  key: CUSTOMER_DB_USER
+
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: customer-config
+                  key: CUSTOMER_DB_NAME
+
+            - name: ADMIN_JWT
+              valueFrom:
+                secretKeyRef:
+                  name: customer-secret
+                  key: ADMIN_JWT
+
+            - name: CUSTOMER_JWT
+              valueFrom:
+                secretKeyRef:
+                  name: customer-secret
+                  key: CUSTOMER_JWT

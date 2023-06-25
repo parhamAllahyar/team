@@ -1,0 +1,415 @@
+syntax="proto3";
+option go_package = "./grpcpkg";
+package grpcpkg;
+
+import "google/protobuf/empty.proto";
+
+
+service Board {
+    rpc CreateBoard(CreateBoardRequest) returns (CreateBoardResponse); 
+    rpc DeleteBoard(DeleteBoardRequest) returns (google.protobuf.Empty); 
+    rpc UpdateBoard(UpdateBoardRequest) returns (UpdateBoardResponse); 
+
+
+    //Section
+    rpc CreateSection(CreateSectionRequest) returns (CreateSectionResponse); 
+    rpc DeleteSection(DeleteSectionRequest) returns (google.protobuf.Empty); 
+    rpc UpdateSection(UpdateSectionRequest) returns (UpdateSectionResponse); 
+
+
+    //Task
+    rpc CreateTask(CreateTaskRequest) returns (CreateTaskResponse);
+    rpc DeleteTask(DeleteTaskRequest) returns (google.protobuf.Empty); 
+    rpc UpdateTask(UpdateTaskRequest) returns (UpdateTaskResponse); 
+    rpc AssignTask(AssignTaskRequest) returns (google.protobuf.Empty);
+
+    //Subtask
+    rpc CreateSubTask(CreateSubTaskRequest) returns (CreateSubTaskResponse);
+    rpc DeleteSubTask(DeleteSubTaskRequest) returns (google.protobuf.Empty); 
+    rpc UpdateSubTask(UpdateSubTaskRequest) returns (UpdateSubTaskResponse); 
+
+    //Tag
+    rpc CreateTag(CreateTagRequest) returns (CreateTagResponse);
+    rpc DeleteTag(DeleteTagRequest) returns (google.protobuf.Empty); 
+    rpc UpdateTag(UpdateTagRequest) returns (UpdateTagResponse); 
+}
+
+
+
+
+
+
+
+
+
+
+message BoardData {
+    string title = 1;
+    string description = 2;
+    string worksoace_id = 3;
+}
+
+message BoardItem {
+    string id = 1;
+    BoardData board_data = 2;
+}
+
+
+
+//BOARD
+message CreateBoardRequest{
+    string access_token = 1;
+    BoardData board = 2;
+}
+
+message CreateBoardResponse{
+    BoardItem board = 1;
+}
+
+
+message ShowBoardRequest{
+    string access_token = 1;
+    string board_id = 2;  
+}
+
+message ShowBoardResponse{
+    BoardItem board = 1;
+}
+
+message DeleteBoardRequest{
+    string access_token = 1; 
+    string board_id = 2;
+} 
+
+message UpdateBoardRequest{
+    string access_token = 1;
+    BoardItem board = 2;
+}
+
+
+message UpdateBoardResponse{
+    BoardItem board = 1;
+}
+
+//SECTION
+message SectionData{
+    string title = 1;
+    uint32 order = 2;
+    string board_id  = 3;
+}
+
+message SectionItem{
+   string id = 1;
+   SectionData section_data = 2;
+}
+
+
+message CreateSectionRequest{
+    string access_token = 1;
+    SectionData section = 2;
+} 
+
+message CreateSectionResponse{
+    SectionItem section = 1;
+} 
+
+
+message ShowSectionRequest{
+    string access_token = 1;
+    string section_id = 2;
+}
+
+message ShowSectionResponse{
+    SectionItem section = 1;
+} 
+
+
+message DeleteSectionRequest{
+    string access_token = 1;
+    string section_id = 2;
+}
+
+
+message UpdateSectionRequest{
+    string access_token = 1;
+    string section_id = 2;
+    SectionData section = 3;
+}
+
+message UpdateSectionResponse{
+    SectionItem section = 2;
+}
+
+
+//TASK
+message TaskData{
+    string title = 1;
+    uint32 order = 2;
+    string section_id  = 3;
+}
+
+message TaskItem{
+    string title = 1;
+    uint32 order = 2;
+    string section_id  = 3;
+}
+
+
+message CreateTaskRequest{
+    string access_token = 1;
+    TaskData task = 2;
+}
+
+message CreateTaskResponse{
+    TaskItem task = 1;
+}
+
+
+message ShowTaskRequest{
+    string access_token = 1;
+    string task_id = 2;
+}
+
+message ShowTaskResponse{
+    TaskItem task = 1;
+}
+
+
+message DeleteTaskRequest{
+    string access_token = 1;
+    string task_id = 2;
+}
+
+
+
+
+
+
+message UpdateTaskRequest{
+    string access_token = 1;
+    TaskData task = 2;
+    string task_id = 3;
+} 
+
+message UpdateTaskResponse{
+    TaskItem task = 1;
+} 
+
+
+message AssignTaskRequest{
+    string access_token = 1;
+    string task_id = 2;
+    string user_id = 3;
+}
+
+
+//SUB TASK
+message SubTaskData{
+    string title = 1;
+    uint32 order = 2;
+    string task_id  = 3;
+}
+
+message SubTaskItem{
+    string id = 1;
+    SubTaskData  subtask = 2;
+}
+
+
+message CreateSubTaskRequest{
+    string access_token = 1;
+    SubTaskData  subtask = 2;
+}
+
+message CreateSubTaskResponse{
+    SubTaskItem  subtask = 2;
+}
+
+
+
+message ShowSubTaskRequest{
+    string access_token = 1;
+    string sub_task_id = 2;
+}
+
+message ShowSubTaskResponse{
+    SubTaskItem subtask = 1;
+}
+
+
+message DeleteSubTaskRequest{
+    string access_token = 1;
+    string sub_task_id = 2;
+}
+
+message UpdateSubTaskRequest{
+    string access_token = 1;
+    string user_id = 2;
+    SubTaskItem subtask = 3;
+} 
+
+
+message UpdateSubTaskResponse{
+    SubTaskItem sub_task = 1;
+} 
+
+
+message AssignSubTaskRequest{
+    string access_token = 1;
+    string task_id = 2;
+    string user_id = 3;
+}
+
+
+
+
+
+//TAG
+message TagData{
+    string title = 1;
+    uint32 order = 2;
+    string tag_id  = 3;
+}
+
+message TagItem{
+    string id = 1;
+    TagData  tag = 2;
+}
+
+
+message CreateTagRequest{
+    string access_token = 1;
+    TagData  tag = 2;
+}
+
+message CreateTagResponse{
+    TagItem  tag = 2;
+}
+
+
+
+message ShowTagRequest{
+    string access_token = 1;
+    string tag_id = 2;
+}
+
+message ShowTagResponse{
+    TagItem tag = 1;
+}
+
+
+message DeleteTagRequest{
+    string access_token = 1;
+    string tag_id = 2;
+}
+
+message UpdateTagRequest{
+    string access_token = 1;
+    string user_id = 2;
+    TagItem tag = 3;
+} 
+
+
+message UpdateTagResponse{
+    TagItem tag = 1;
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

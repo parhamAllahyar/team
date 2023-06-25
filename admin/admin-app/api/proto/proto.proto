@@ -1,0 +1,235 @@
+syntax="proto3";
+option go_package = "./grpcpkg";
+package grpcpkg;
+
+
+service Admin {
+    rpc SignUp(SignUpRequest) returns (SignUpRequest);
+    rpc SignIn(SignInRequest) returns(SignInResponse);
+    rpc Logout(LogoutRequest) returns(LogoutResponse);
+    rpc Index(IndexAdminRequest) returns(IndexAdminResponse);
+}
+
+service Board {
+    rpc GetById(GetBoardRequest) returns (GetBoardResponse);
+    rpc Index(IndexBoardRequest) returns(IndexBoardResponse);
+
+}
+
+service  Section{
+    rpc GetById(GetSectionRequest) returns (GetSectionResponse);
+    rpc Index(IndexSectionRequest) returns(IndexSectionResponse);
+}
+
+
+service Task {
+    rpc GetById(GetBoardRequest) returns (GetBoardResponse);
+    rpc Index(IndexTaskRequest) returns(IndexTaskResponse);
+}
+
+
+service Customer {
+    rpc GetById(GetRequest) returns (GetResponse);
+    rpc Index(IndexRequest) returns(IndexResponse);
+    rpc UpdateStatus(UpdateRequest) returns (UpdateResponse);
+    rpc GetByPhpne(GetRequest) returns (GetResponse);
+}
+
+
+
+
+message Response {
+    int32 status  = 1;
+    string message = 2;
+ }
+ 
+ message AdminData{
+    string first_name = 1 ;
+    string last_name = 2 ;
+    string email     = 4;  
+ }
+
+ message AdminItem {
+    AdminData admin_data  = 1 ;
+    uint32 ID = 2 ;
+ }
+
+
+
+ message SignInRequest{
+    Response response = 1;
+    string email = 2 ;
+    string password = 3 ;
+ }
+
+
+ message SignInResponse{
+    Response response = 1;
+ }
+
+
+ message SignUpRequest{
+    string access_token  = 1;
+    AdminData admin = 2 ;
+ }
+
+ message SignUpResponse{
+    Response response = 1;
+ }
+
+
+ message LogoutRequest{
+    string access_token  = 1;
+ }
+
+ message LogoutResponse{
+    Response response = 1;
+ }
+ 
+
+ message IndexAdminRequest{
+    string access_token  = 1;
+ }
+ 
+ message IndexAdminResponse{
+    Response response = 1;
+    repeated AdminItem admin_item = 2;
+ }
+
+/////Board Messages/////
+//TODO: change data
+message BoardData{
+   
+}
+
+message BoardItem {
+   BoardData board_item = 1;
+   uint32 ID = 2;
+}
+
+message IndexBoardRequest{
+   string access_token  = 1;
+}
+
+message IndexBoardResponse{
+   Response response = 1;
+   repeated BoardItem board_item = 2;
+}
+
+message GetBoardRequest{
+   string access_token  = 1;
+   uint32 ID = 2;
+}
+
+message GetBoardResponse{
+   Response response = 1;
+   BoardItem board_item = 2;
+}
+
+
+
+/////Section Messages/////
+//TODO: change data
+message SectionData{
+   
+}
+
+message SectionItem {
+   SectionData section_data = 1;
+   uint32 ID = 2;
+}
+
+message IndexSectionRequest{
+   string access_token  = 1;
+}
+
+message IndexSectionResponse{
+   Response response = 1;
+   repeated SectionItem section_item = 2;
+}
+
+message GetSectionRequest{
+   string access_token  = 1;
+   uint32 ID = 2;
+}
+message GetSectionResponse{
+   Response response = 1;
+   SectionItem section_item = 2;
+}
+
+
+/////Task Messages/////
+ //TODO: change data
+ message TaskData{
+   
+ }
+
+ message TaskItem {
+    TaskData Task = 1;
+    uint32 ID = 2;
+ }
+
+ message IndexTaskRequest{
+    string access_token  = 1;
+ }
+
+ message IndexTaskResponse{
+    Response response = 1;
+    repeated TaskItem task = 2;
+ }
+
+ message GetTaskRequest{
+    string access_token  = 1;
+    uint32 ID = 2;
+ }
+ message GetTaskResponse{
+    Response response = 1;
+    TaskItem task = 2;
+ }
+
+
+//TODO: change data
+message CustomerData{
+ 
+}
+
+message CustomerItem {
+   CustomerData customer_item = 1;
+   uint32 ID = 2;
+}
+
+message IndexRequest{
+   string access_token  = 1;
+}
+
+message IndexResponse{
+   Response response = 1;
+   repeated CustomerItem customer_item = 2;
+}
+
+message GetRequest{
+   string access_token  = 1;
+   uint32 ID = 2;
+}
+
+message GetResponse{
+   Response response = 1;
+   CustomerItem customer_item = 2;
+}
+
+message UpdateRequest{
+    string access_token  = 1;
+    uint32 ID = 2;
+ }
+ 
+ message UpdateResponse{
+    Response response = 1;
+ }
+ 
+ 
+
+
+
+
+
+

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: workspace-neo4j
+  name: workspace-neo4j
+spec:
+  type: ClusterIP
+  ports:
+    - name: "workspace-service"
+      port: 80
+      targetPort: 80
+  selector:
+    app: workspace-neo4j

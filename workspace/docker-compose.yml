@@ -1,0 +1,48 @@
+version: "3.8"
+services:
+
+  # workspace App
+  workspace-app:
+    container_name: workspace-app
+    build:
+      context: ./app
+      dockerfile: dockerfile.dev
+    ports:
+      - 4040:4040
+    volumes:
+      - ./app:/app
+    environment:
+      - WORKSPACE_APP_GRPC_PORT=4040
+      - NEO_PASSWORD=test1234
+      - NEO_USER=neo4j 
+      - NEO_HOST=workspace-db 
+    restart: on-failure
+    depends_on:
+      - workspace-db
+    networks:
+      - workspace-db
+
+  # workspace DB
+  workspace-db:
+    image: neo4j:latest
+    container_name: workspace-db
+    volumes:
+      - '$HOME/neo4j/data:/data'
+      - '$HOME/neo4j/conf/:/conf/'
+    ports:
+      - 7475:7474
+      - 7688:7687
+    environment:
+      - NEO4J_AUTH=neo4j/test1234
+    restart: on-failure
+    networks:
+      - workspace-db
+    command: neo4j
+
+volumes:
+  dgraph:
+
+
+networks:
+  workspace-db:
+    driver: bridge

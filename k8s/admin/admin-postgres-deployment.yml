@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-postgres-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin-postgres-depl
+  template:
+    metadata:
+      labels:
+        app: admin-postgres-depl
+    spec:
+      containers:
+        - name: admin-postgres
+          image: postgres:14.1
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: admin-secret
+                  key: ADMIN_DB_PASSWORD
+
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: admin-config
+                  key: ADMIN_DB_NAME
+
+            - name: ADMIN_DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: admin-config
+                  key: ADMIN_DB_PORT
+
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: admin-config
+                  key: ADMIN_DB_USER
+
+
+

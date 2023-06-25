@@ -1,0 +1,168 @@
+syntax="proto3";
+option go_package = "./grpcpkg";
+package grpcpkg;
+
+import "google/protobuf/empty.proto";
+
+
+service Customer {
+  
+	rpc Update(UpdateRequest) returns (UpdateResponse);
+	rpc Delete(DeleteRequest) returns (google.protobuf.Empty);
+	rpc GetByID(GetByIDRequest) returns (GetByIDResponse);
+	rpc Index(IndexRequest) returns (IndexResponse);
+	rpc UpdatePhone(UpdatePhoneRequest) returns (google.protobuf.Empty);
+	rpc UpdateEmail(UpdateEmailRequest) returns (google.protobuf.Empty);
+	rpc UpdatePassword(UpdatePasswordRequest) returns (google.protobuf.Empty);
+
+    rpc SignIn(SignInRequest) returns (SignInResponse) ;
+    rpc SignUp(SignUpRequest) returns (SignUpResponse);
+}
+
+
+// service Auth {
+   
+// }
+
+
+
+
+
+message CustomerData{
+   string first_name = 1;
+   string last_name = 2;
+   string email = 3;
+   string phone = 4;
+}
+
+message CustomerItem {
+    string id = 1;
+    CustomerData customer_data = 2;
+} 
+
+
+
+
+message UpdateRequest{
+    string access_token = 1;
+    string first_name = 2;
+    string last_name = 3;
+
+}
+message UpdateResponse{
+ 
+    CustomerItem customer_item = 2;
+}
+
+message DeleteRequest{
+    string access_token = 1;
+}
+
+
+
+message GetByIDRequest{
+    string access_token = 1;
+    string id = 2;
+}
+
+
+message GetByIDResponse{
+   
+    CustomerItem customer_item = 2;
+}
+
+message IndexRequest{
+    string access_token = 1;
+}
+
+message IndexResponse{
+  
+    repeated  CustomerItem customer_item = 2;
+}
+
+
+message UpdatePhoneRequest{
+    string access_token = 1;
+    string phone = 2;
+}
+
+
+message UpdateEmailRequest{
+    string access_token = 1;
+    string email = 2;
+}
+
+
+message UpdatePasswordRequest{
+    string access_token = 1;
+    string old_password = 2;
+    string new_password = 3 ;
+}
+
+
+
+message SignUpRequest{
+    CustomerData customer_data = 1;
+    string password = 2;
+}
+
+message SignUpResponse{
+    string access_token = 1; 
+}
+
+
+message SignInRequest{
+    string email = 1;
+    string password = 2;
+}
+
+message SignInResponse{
+    string access_token = 1; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

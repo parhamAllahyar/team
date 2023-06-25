@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticket-postgres-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ticket-postgres-depl
+  template:
+    metadata:
+      labels:
+        app: ticket-postgres-depl
+    spec:
+      containers:
+        - name: ticket-postgres
+          image: postgres:14.1
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ticket-secret
+                  key: TICKET_DB_PASSWORD
+
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: ticket-config
+                  key: TICKET_DB_NAME
+
+            - name: TICKET_DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: ticket-config
+                  key: TICKET_DB_PORT
+
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: ticket-config
+                  key: TICKET_DB_USER
+
+
+

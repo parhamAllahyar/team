@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: board-app
+  name: board-app
+spec:
+  type: ClusterIP
+  ports:
+    - name: "board-service"
+      port: 80
+      targetPort: 80
+  selector:
+    app: redis
+
+

@@ -1,0 +1,33 @@
+apiVersion: skaffold/v4beta5
+kind: Config
+metadata:
+  name: team
+
+manifests:
+  rawYaml:
+    - k8s/board/*
+    - k8s/admin/*
+    - k8s/customer/*
+    - k8s/ingress/*
+
+build:
+  artifacts:
+    - image: admin
+      context: admin
+      docker:
+        dockerfile: Dockerfile
+
+    - image: board
+      context: board
+      docker:
+        dockerfile: Dockerfile
+
+    - image: customer
+      context: customer
+      docker:
+        dockerfile: Dockerfile
+
+    - image: board
+      context: board
+      docker:
+        dockerfile: Dockerfile

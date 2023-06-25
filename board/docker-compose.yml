@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+
+  # Board App
+  board-app:
+    container_name: board-app
+    build:
+      context: .
+      dockerfile: dockerfile.dev
+    ports:
+      - ${BOARD_APP_PORT}:${BOARD_APP_PORT}
+    volumes:
+      - ./app:/app
+    environment:
+      - POSTGRES_URL=board-postgres-db
+      - POSTGRES_USER=${BOARD_DB_USER}
+      - POSTGRES_PASSWORD=${BOARD_DB_PASSWORD}
+      - POSTGRES_DB=${BOARD_DB_NAME}
+      - POSTGRES_PORT=${BOARD_DB_PORT}
+      - BOARD_APP_PORT=${BOARD_APP_PORT}
+    restart: on-failure
+    depends_on:
+      - board-postgres-db
+    links:
+      - board-postgres-db 
+
+  # Board DB
+  board-postgres-db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${BOARD_DB_USER}
+      - POSTGRES_PASSWORD=${BOARD_DB_PASSWORD}
+      - POSTGRES_DB=${BOARD_DB_NAME}
+    ports:
+      - ${BOARD_DB_PORT}:${BOARD_DB_PORT}
+    volumes:
+      - board-db:/var/lib/postgresql/data
+
+volumes:
+  board-db:

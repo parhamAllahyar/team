@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: board-postgres-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: board-postgres-depl
+  template:
+    metadata:
+      labels:
+        app: board-postgres-depl
+    spec:
+      containers:
+        - name: board-postgres
+          image: postgres:14.1
+          resources:
+            limits:
+              memory: 1024Mi
+              cpu: "1"
+            requests:
+              memory: 512Mi
+              cpu: "1"
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "123456789"
+            #  valueFrom:
+            #     secretKeyRef:
+            #       name: board-secret
+            #       key: "123456789"
+            #       # key: BOARD_DB_PASSWORD
+
+            - name: POSTGRES_DB
+              value: board
+
+              # valueFrom:
+              #   configMapKeyRef:
+              #     name: board-config
+              #     # key: BOARD_DB_NAME
+
+            - name: BOARD_DB_PORT
+              value: "5432"
+              # valueFrom:
+              #   configMapKeyRef:
+              #     name: board-config
+              #     # key: BOARD_DB_PORT
+                  
+
+            - name: POSTGRES_USER
+              value: postgres
+              # valueFrom:
+              #   configMapKeyRef:
+              #     name: board-config
+                  
+                  # key: BOARD_DB_USER
+
+
+

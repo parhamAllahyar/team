@@ -1,0 +1,11 @@
+# https://kubernetes.io/docs/concepts/configuration/configmap/
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: admin-config
+data:
+  ADMIN_DB_NAME: bookstore
+  ADMIN_DB_USER: appuser
+  ADMIN_DB_PORT: "5412"
+  
+

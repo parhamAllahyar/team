@@ -1,0 +1,10 @@
+# https://kubernetes.io/docs/concepts/configuration/configmap/
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: customer-config
+data:
+  CUSTOMER_DB_NAME: bookstore
+  CUSTOMER_DB_USER: appuser
+  CUSTOMER_DB_PORT: "5412"
+  

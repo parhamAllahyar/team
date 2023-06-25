@@ -1,0 +1,9 @@
+# https://kubernetes.io/docs/concepts/configuration/configmap/
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: board-config
+data:
+  BOARD_DB_NAME: bookstore
+  BOARD_DB_USER: appuser
+  BOARD_DB_PORT: "5412"

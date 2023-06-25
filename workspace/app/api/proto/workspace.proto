@@ -1,0 +1,84 @@
+syntax="proto3";
+option go_package = "./grpcpkg";
+package grpcpkg;
+
+
+service Workspace {
+   rpc Create(CreateRequest) returns (CreateResponse);
+   rpc Update(UpdateRequest) returns (UpdateResponse);
+   rpc CustomerWorkspaces(CustomerWorkspacesRequest) returns (CustomerWorkspacesResponse);
+   rpc Index(IndexRequest) returns (IndexResponse);
+   rpc WorkspaceMembers(WorkspaceMembersRequest) returns (WorkspaceMembersResponse);
+}
+
+
+message workspace{
+   string id = 2;
+   string Title = 3;
+}
+
+
+message WorkspaceMember{
+   string id = 1;
+   string first_name = 2;
+   string last_name = 3;
+}
+
+
+message CreateRequest{
+   string access_token  = 1;
+   string Title = 2;
+}
+
+message CreateResponse{
+   string id = 1;
+   string Title = 2;
+}
+
+message UpdateRequest{
+   string access_token  = 1;
+   string id = 2;
+   string Title = 3;
+}
+
+message UpdateResponse{
+   string id = 1;
+   string Title = 2;
+}
+
+message CustomerWorkspacesRequest{
+  string access_token  = 1;
+}
+
+message CustomerWorkspacesResponse{
+   repeated workspace workspace = 1;
+}
+
+message IndexRequest{
+   string access_token  = 1;
+}
+
+message IndexResponse{
+   repeated workspace workspace = 1;
+}
+
+message WorkspaceMembersRequest{
+   string access_token  = 1;
+   string id = 2;
+}
+
+message WorkspaceMembersResponse{
+   repeated WorkspaceMember WorkspaceMember = 2;
+}
+
+
+
+
+
+
+
+
+
+
+
+

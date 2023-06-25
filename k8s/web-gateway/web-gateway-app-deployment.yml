@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-gateway-app-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-gateway-app
+  template:
+    metadata:
+      labels:
+        app: web-gateway-app
+    spec:
+      containers:
+        - name: web-gateway-app
+          image: nginx:1.25.0
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
+          
+

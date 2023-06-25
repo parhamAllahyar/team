@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: board-app-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: board-app-depl
+  template:
+    metadata:
+      labels:
+        app: board-app-depl
+    spec:
+      containers:
+        - name: board-app
+          image: board
+          resources:
+            limits:
+              memory: 1024Mi
+              cpu: "1"
+            requests:
+              memory: 1024Mi
+              cpu: "1"
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: board-secret
+                  key: BOARD_DB_PASSWORD
+
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: board-config
+                  key: BOARD_DB_PORT
+
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: board-config
+                  key: BOARD_DB_USER
+
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: board-config
+                  key: BOARD_DB_NAME
+
+            - name: ADMIN_JWT
+              valueFrom:
+                secretKeyRef:
+                  name: board-secret
+                  key: ADMIN_JWT
+
+            - name: CUSTOMER_JWT
+              valueFrom:
+                secretKeyRef:
+                  name: board-secret
+                  key: CUSTOMER_JWT

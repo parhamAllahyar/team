@@ -1,0 +1,166 @@
+version: "3.8"
+services:
+
+  # ----------------------------------ADMIN-----------------------------------------
+  # Admin App
+  admin-app:
+    container_name: admin-app
+    build:
+      context: ./admin
+      dockerfile: dockerfile.dev
+    ports:
+      - ${ADMIN_APP_PORT}:${ADMIN_APP_PORT}
+    volumes:
+      - ./admin:/app
+    environment:
+      - POSTGRES_URL=admin-postgres-db
+      - POSTGRES_USER=${ADMIN_DB_USER}
+      - POSTGRES_PASSWORD=${ADMIN_DB_PASSWORD}
+      - POSTGRES_DB=${ADMIN_DB_NAME}
+      - POSTGRES_PORT=${ADMIN_DB_PORT}
+      - ADMIN_APP_PORT=${ADMIN_APP_PORT}
+      - ADMIN_APP_HOST=${ADMIN_APP_HOST}
+    restart: on-failure
+    depends_on:
+      - admin-postgres-db
+    links:
+      - admin-postgres-db
+
+  # Admin DB
+  admin-postgres-db:
+    container_name: admin-postgres-db
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${ADMIN_DB_USER}
+      - POSTGRES_PASSWORD=${ADMIN_DB_PASSWORD}
+      - POSTGRES_DB=${ADMIN_DB_NAME}
+    ports:
+      - ${ADMIN_DB_PORT}:${ADMIN_DB_PORT}
+    volumes:
+      - admin-db:/var/lib/postgresql/data
+
+  # ----------------------------------BOARD-----------------------------------------
+
+  # Board App
+  board-app:
+    container_name: board-app
+    build:
+      context: ./board
+      dockerfile: dockerfile.dev
+    ports:
+      - ${BOARD_APP_PORT}:${BOARD_APP_PORT}
+    volumes:
+      - ./board:/app
+    environment:
+      - POSTGRES_URL=board-postgres-db
+      - POSTGRES_USER=${BOARD_DB_USER}
+      - POSTGRES_PASSWORD=${BOARD_DB_PASSWORD}
+      - POSTGRES_DB=${BOARD_DB_NAME}
+      - POSTGRES_PORT=${BOARD_DB_PORT}
+      - BOARD_APP_PORT=${BOARD_APP_PORT}
+      - BOARD_APP_HOST=${BOARD_APP_HOST}
+    restart: on-failure
+    depends_on:
+      - board-postgres-db
+    links:
+      - board-postgres-db
+
+  # Board DB
+  board-postgres-db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${BOARD_DB_USER}
+      - POSTGRES_PASSWORD=${BOARD_DB_PASSWORD}
+      - POSTGRES_DB=${BOARD_DB_NAME}
+    ports:
+      - ${BOARD_DB_PORT}:${BOARD_DB_PORT}
+    volumes:
+      - board-db:/var/lib/postgresql/data
+
+  # ----------------------------------CUSTOMER-----------------------------------------
+
+  # Customer App
+  customer-app:
+    container_name: customer-app
+    build:
+      context: ./customer
+      dockerfile: dockerfile.dev
+    ports:
+      - ${CUSTOMER_APP_PORT}:${CUSTOMER_APP_PORT}
+    volumes:
+      - ./customer:/app
+    environment:
+      - POSTGRES_URL=customer-postgres-db
+      - POSTGRES_USER=${CUSTOMER_DB_USER}
+      - POSTGRES_PASSWORD=${CUSTOMER_DB_PASSWORD}
+      - POSTGRES_DB=${CUSTOMER_DB_NAME}
+      - POSTGRES_PORT=${CUSTOMER_DB_PORT}
+      - CUSTOMER_APP_PORT=${CUSTOMER_APP_PORT}
+      - CUSTOMER_APP_HOST=${CUSTOMER_APP_HOST}
+    restart: on-failure
+    depends_on:
+      - customer-postgres-db
+    links:
+      - customer-postgres-db
+
+  # Customer-DB
+  customer-postgres-db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${CUSTOMER_DB_USER}
+      - POSTGRES_PASSWORD=${CUSTOMER_DB_PASSWORD}
+      - POSTGRES_DB=${CUSTOMER_DB_NAME}
+    ports:
+      - ${CUSTOMER_DB_PORT}:${CUSTOMER_DB_PORT}
+    volumes:
+      - customer-db:/var/lib/postgresql/data
+  # ----------------------------------TICKET-----------------------------------------
+
+  # Ticket App
+  ticket-app:
+    container_name: ticket-app
+    build:
+      context: ./ticket
+      dockerfile: dockerfile.dev
+    ports:
+      - ${TICKET_APP_PORT}:${TICKET_APP_PORT}
+    volumes:
+      - ./ticket:/app
+    environment:
+      - POSTGRES_URL=ticket-postgres-db
+      - POSTGRES_USER=${TICKET_DB_USER}
+      - POSTGRES_PASSWORD=${TICKET_DB_PASSWORD}
+      - POSTGRES_DB=${TICKET_DB_NAME}
+      - POSTGRES_PORT=${TICKET_DB_PORT}
+      - TICKET_APP_PORT=${TICKET_APP_PORT}
+      - TICKET_APP_HOST=${TICKET_APP_HOST}
+    restart: on-failure
+    depends_on:
+      - ticket-postgres-db
+    links:
+      - ticket-postgres-db
+
+  # Ticket DB
+  ticket-postgres-db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${TICKET_DB_USER}
+      - POSTGRES_PASSWORD=${TICKET_DB_PASSWORD}
+      - POSTGRES_DB=${TICKET_DB_NAME}
+    ports:
+      - ${TICKET_DB_PORT}:${TICKET_DB_PORT}
+    volumes:
+      - ticket-db:/var/lib/postgresql/data
+
+volumes:
+  admin-db:
+  board-db:
+  customer-db:
+  tickt-db:
+  workspace-db:
+
+

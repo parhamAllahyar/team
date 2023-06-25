@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+
+  # Customer App
+  customer-app:
+    container_name: customer-app
+    build:
+      context: .
+      dockerfile: dockerfile.dev
+    ports:
+      - ${CUSTOMER_APP_PORT}:${CUSTOMER_APP_PORT}
+    volumes:
+      - ./app:/app
+    environment:
+      - POSTGRES_URL=customer-postgres-db
+      - POSTGRES_USER=${CUSTOMER_DB_USER}
+      - POSTGRES_PASSWORD=${CUSTOMER_DB_PASSWORD}
+      - POSTGRES_DB=${CUSTOMER_DB_NAME}
+      - POSTGRES_PORT=${CUSTOMER_DB_PORT}
+      - CUSTOMER_APP_PORT=${CUSTOMER_APP_PORT} 
+    restart: on-failure
+    depends_on:
+      - customer-postgres-db
+    links:
+      - customer-postgres-db 
+
+  # Customer DB
+  board-postgres-db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${CUSTOMER_DB_USER}
+      - POSTGRES_PASSWORD=${CUSTOMER_DB_PASSWORD}
+      - POSTGRES_DB=${CUSTOMER_DB_NAME}
+    ports:
+      - ${CUSTOMER_DB_PORT}:${CUSTOMER_DB_PORT}
+    volumes:
+      - customer-db:/var/lib/postgresql/data
+
+volumes:
+  customer-db:

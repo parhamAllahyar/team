@@ -1,0 +1,11 @@
+# https://kubernetes.io/docs/concepts/configuration/configmap/
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: workspace-config
+data:
+  DB_HOST: bookstore-mysql
+  DB_NAME: bookstore
+  DB_USER: appuser
+  DB_PORT: "5412"
+
